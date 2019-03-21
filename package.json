@@ -1,0 +1,17 @@
+{
+  "name": "blog-back-end",
+  "version": "1.0.0",
+  "description": "back end api for single page blog app",
+  "main": "index.js",
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "helmet": "^3.16.0",
+    "mongodb": "^3.1.13",
+    "nodemon": "^1.18.10",
+    "winston": "^3.2.1"
+  }
+}
