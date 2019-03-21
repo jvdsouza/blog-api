@@ -3,14 +3,19 @@
   "version": "1.0.0",
   "description": "back end api for single page blog app",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "start": "nodemon ./server.js"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "cors": "^2.8.5",
+    "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "helmet": "^3.16.0",
     "mongodb": "^3.1.13",
+    "mongoose": "^5.4.19",
     "nodemon": "^1.18.10",
     "winston": "^3.2.1"
   }
