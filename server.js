@@ -55,10 +55,27 @@ mongoose.connect(dbURI, { useNewUrlParser: true })
     console.log("There was an error connecting to the database: ", err);
   })
 
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+const Schema = mongoose.Schema;
+
+const BlogPostSchema = new Schema({
+  title: String,
+  body: String
+})
+
+const BlogPostModel = mongoose.model('BlogPostModel', BlogPostSchema)
+
 //--------------------- END MONGODB CONFIG ------------------------------------------
 
 app.get('/', (req, resp) => {
     resp.sendFile(path.join(__dirname + '/pages/index.html'))
+})
+
+app.get('/:slug', (req, resp) => {
+  {blogContent.blogPostContent(req, resp)}
 })
 
 app.listen(port || 3001, () => {
