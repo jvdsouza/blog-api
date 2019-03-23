@@ -74,7 +74,7 @@ app.get('/', (req, resp) => {
     resp.sendFile(path.join(__dirname + '/pages/index.html'))
 })
 
-app.get('/:slug', (req, resp) => {
+app.get('/:title', (req, resp) => {
   {blogContent.blogPostContent(req, resp)}
 })
 
