@@ -12,7 +12,6 @@ const blogContent = require('./controllers/blog-content');
 
 const app = express();
 const port = process.env.PORT;
-const schema = mongoose.Schema;
 
 app.use(bodyParser.json())
 app.use(helmet())
@@ -45,7 +44,7 @@ const logger = winston.createLogger({
 //--------------------- END WINSTON LOGGING ------------------------------------------
 
 //--------------------- START MONGODB CONFIG ------------------------------------------
-const dbURI = `mongodb+srv://jvdsouza:${process.env.DBPASSWORD}@single-page-db-jmq2r.mongodb.net/test?retryWrites=true`;
+const dbURI = `mongodb+srv://jvdsouza:${process.env.DBPASSWORD}@single-page-db-jmq2r.mongodb.net/${process.env.DBNAME}`;
 
 mongoose.connect(dbURI, { useNewUrlParser: true })
   .then(() => {
@@ -66,8 +65,7 @@ const BlogPostSchema = new Schema({
   body: String
 })
 
-const BlogPostModel = mongoose.model('BlogPostModel', BlogPostSchema)
-
+const BlogPostModel = mongoose.model('Post', BlogPostSchema, 'posts')
 //--------------------- END MONGODB CONFIG ------------------------------------------
 
 app.get('/', (req, resp) => {
@@ -75,7 +73,7 @@ app.get('/', (req, resp) => {
 })
 
 app.get('/:title', (req, resp) => {
-  {blogContent.blogPostContent(req, resp)}
+  {blogContent.blogPostContent(req, resp, BlogPostModel)}
 })
 
 app.listen(port || 3001, () => {
