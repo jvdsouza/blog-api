@@ -1,12 +1,20 @@
 //API to fetch blog content depending on url parameters
 const blogPostContent = (req, resp, BlogPostModel) => {
     const {title} = req.params;
-    console.log(req.params);
-    BlogPostModel.find({}).then(console.log)
-    
-    return resp.json(title + ' 200')
+    return BlogPostModel.find({"title": title})
+        .then(data => {
+            return resp.json(data)
+        })
+}
+
+const blogPosts = (req, resp, BlogPostModel) => {
+    return BlogPostModel.find({})
+        .then(data => {
+            return resp.json(data)
+        })
 }
 
 module.exports = {
-    blogPostContent
+    blogPostContent,
+    blogPosts
 }

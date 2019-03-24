@@ -62,7 +62,7 @@ const Schema = mongoose.Schema;
 
 const BlogPostSchema = new Schema({
   title: String,
-  body: String
+  body: String,
 })
 
 const BlogPostModel = mongoose.model('Post', BlogPostSchema, 'posts')
@@ -70,6 +70,10 @@ const BlogPostModel = mongoose.model('Post', BlogPostSchema, 'posts')
 
 app.get('/', (req, resp) => {
     resp.sendFile(path.join(__dirname + '/pages/index.html'))
+})
+
+app.get('/home', (req, resp) => {
+  {blogContent.blogPosts(req, resp, BlogPostModel)}
 })
 
 app.get('/:title', (req, resp) => {
