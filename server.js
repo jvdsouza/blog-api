@@ -9,6 +9,8 @@ const winston = require('winston');
 const helmet = require('helmet');
 
 const blogContent = require('./controllers/blog-content');
+const login = require('./controllers/login')
+const blogControl = require('./controllers/blog-post');
 
 const app = express();
 const port = process.env.PORT;
@@ -16,32 +18,6 @@ const port = process.env.PORT;
 app.use(bodyParser.json())
 app.use(helmet())
 app.use(cors())
-
-//--------------------- START WINSTON LOGGING ----------------------------------------
-const logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.json(),
-    defaultMeta: { service: 'user-service' },
-    transports: [
-      //
-      // - Write to all logs with level `info` and below to `combined.log` 
-      // - Write all logs error (and below) to `error.log`.
-      //
-      new winston.transports.File({ filename: 'error.log', level: 'error' }),
-      new winston.transports.File({ filename: 'combined.log' })
-    ]
-  });
-   
-  //
-  // If we're not in production then log to the `console` with the format:
-  // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
-  // 
-  if (process.env.NODE_ENV !== 'production') {
-    logger.add(new winston.transports.Console({
-      format: winston.format.simple()
-    }));
-  }
-//--------------------- END WINSTON LOGGING ------------------------------------------
 
 //--------------------- START MONGODB CONFIG ------------------------------------------
 const dbURI = `mongodb+srv://jvdsouza:${process.env.DBPASSWORD}@single-page-db-jmq2r.mongodb.net/${process.env.DBNAME}`;
@@ -63,15 +39,17 @@ const Schema = mongoose.Schema;
 const BlogPostSchema = new Schema({
   title: String,
   body: String,
-})
+}, {timestamps: {createdAt: 'created_at'}})
 
 const BlogPostModel = mongoose.model('Post', BlogPostSchema, 'posts')
 //--------------------- END MONGODB CONFIG ------------------------------------------
 
+//---server endpoint---
 app.get('/', (req, resp) => {
     resp.sendFile(path.join(__dirname + '/pages/index.html'))
 })
 
+//---blog pages endpoints---
 app.get('/home', (req, resp) => {
   {blogContent.blogPosts(req, resp, BlogPostModel)}
 })
@@ -80,6 +58,24 @@ app.get('/:title', (req, resp) => {
   {blogContent.blogPostContent(req, resp, BlogPostModel)}
 })
 
+//---CMS endpoints---
+// app.post('/adminlogin', (req, resp) => {
+//   {login.adminLogin(req,resp)}
+// })
+
+app.post('/admincreate', (req, resp) => {
+  {blogControl.createPost(req, resp, BlogPostModel)}
+})
+
+// app.put('/adminupdate', (req, resp) => {
+//   {cmsCRUD.updatePost(req, resp)}
+// })
+
+// app.delete('/admindelete', (req, resp) => {
+//   {cmsCRUD.deletePost(req, resp)}
+// })
+
+//---connection listening---
 app.listen(port || 3001, () => {
     console.log(`app is running on port ${port}`);
 })

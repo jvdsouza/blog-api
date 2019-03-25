@@ -5,6 +5,7 @@ const blogPostContent = (req, resp, BlogPostModel) => {
         .then(data => {
             return resp.json(data)
         })
+        .catch(err => resp.status(400).json("unable to retrieve post"))
 }
 
 const blogPosts = (req, resp, BlogPostModel) => {
@@ -12,6 +13,7 @@ const blogPosts = (req, resp, BlogPostModel) => {
         .then(data => {
             return resp.json(data)
         })
+        .catch(err => resp.status(400).json("unable to retrieve posts"))
 }
 
 module.exports = {
