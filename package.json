@@ -4,7 +4,6 @@
   "description": "back end api for single page blog app",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./server.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,7 +15,6 @@
     "helmet": "^3.16.0",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.19",
-    "nodemon": "^1.18.10",
     "winston": "^3.2.1"
   }
 }
