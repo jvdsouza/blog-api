@@ -3,13 +3,14 @@ const envVar = require('dotenv').config()
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const winston = require('winston');
 const helmet = require('helmet');
 
 const blogContent = require('./controllers/blog-content');
-const login = require('./controllers/login')
+const login = require('./controllers/login');
 const blogControl = require('./controllers/blog-post');
 
 const app = express();
@@ -41,7 +42,13 @@ const BlogPostSchema = new Schema({
   body: String,
 }, {timestamps: {createdAt: 'created_at'}})
 
+const CMSLogin = new Schema({
+  username: String,
+  password: String,
+})
+
 const BlogPostModel = mongoose.model('Post', BlogPostSchema, 'posts')
+const LoginModel = mongoose.model('Authentication', CMSLogin, 'authentication')
 //--------------------- END MONGODB CONFIG ------------------------------------------
 
 //---server endpoint---
@@ -59,9 +66,9 @@ app.get('/:title', (req, resp) => {
 })
 
 //---CMS endpoints---
-// app.post('/adminlogin', (req, resp) => {
-//   {login.adminLogin(req,resp)}
-// })
+app.post('/authenticate', (req, resp) => {
+  {login.authentication(req, resp, bcrypt, LoginModel)}
+})
 
 app.post('/admincreate', (req, resp) => {
   {blogControl.createPost(req, resp, BlogPostModel)}
