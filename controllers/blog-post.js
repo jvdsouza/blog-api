@@ -1,11 +1,16 @@
+require('dotenv').config()
 //API for the CMS for CRUD capabilities for the blog platform
 const createPost = (req, resp, BlogPostModel) => {
-    const {title, body} = req.body;
+    const {title, body, apiKey} = req.body;
 
-    const addPost = new BlogPostModel({title: title, body: body})
-    addPost.save();
-    
-    return resp.status(200).json('post has been added to the blog')
+    if(apiKey === process.env.APIKEY) {
+        const addPost = new BlogPostModel({title: title, body: body})
+        addPost.save();
+        
+        return resp.status(200).json('post has been added to the blog')
+    } else {
+        return resp.status(400).json('invalid api key')
+    }
 }
 
 module.exports = {
