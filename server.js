@@ -75,12 +75,12 @@ app.post('/admincreate', (req, resp) => {
 })
 
 // app.put('/adminupdate', (req, resp) => {
-//   {cmsCRUD.updatePost(req, resp)}
+//   {blogControl.updatePost(req, resp)}
 // })
 
-// app.delete('/admindelete', (req, resp) => {
-//   {cmsCRUD.deletePost(req, resp)}
-// })
+app.delete('/admindelete', (req, resp) => {
+  {blogControl.deletePost(req, resp, BlogPostModel)}
+})
 
 //---connection listening---
 app.listen(port || 3001, () => {
