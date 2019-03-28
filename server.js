@@ -21,7 +21,7 @@ app.use(helmet())
 app.use(cors())
 
 //--------------------- START MONGODB CONFIG ------------------------------------------
-const dbURI = `mongodb+srv://jvdsouza:${process.env.DBPASSWORD}@single-page-db-jmq2r.mongodb.net/${process.env.DBNAME}`;
+const dbURI = `mongodb+srv://${process.env.DBUSERNAME}:${process.env.DBPASSWORD}@single-page-db-jmq2r.mongodb.net/${process.env.DBNAME}`;
 
 mongoose.connect(dbURI, { useNewUrlParser: true })
   .then(() => {
@@ -74,9 +74,13 @@ app.post('/admincreate', (req, resp) => {
   {blogControl.createPost(req, resp, BlogPostModel)}
 })
 
-// app.put('/adminupdate', (req, resp) => {
-//   {blogControl.updatePost(req, resp)}
-// })
+app.post('/returnpost', (req, resp) => {
+  {blogControl.returnPost(req, resp, BlogPostModel)}
+})
+
+app.put('/adminupdate', (req, resp) => {
+  {blogControl.updatePost(req, resp, BlogPostModel)}
+})
 
 app.delete('/admindelete', (req, resp) => {
   {blogControl.deletePost(req, resp, BlogPostModel)}
