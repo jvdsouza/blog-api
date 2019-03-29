@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const winston = require('winston');
 const helmet = require('helmet');
 
 const blogContent = require('./controllers/blog-content');
