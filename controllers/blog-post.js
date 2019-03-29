@@ -47,8 +47,7 @@ const updatePost = (req, resp, BlogPostModel) => {
     if(apiKey === process.env.APIKEY) {
         BlogPostModel.updateOne(
             {"_id": docID},
-            {"body": body},
-            (error)=>console.log("error", error)
+            {"title":title, "body": body}
         )
             .then(response => {
                 return resp.status(200).json('updated')
